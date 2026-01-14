@@ -182,6 +182,7 @@ resource phiDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05
     model: {
       format: 'OpenAI'
       name: 'phi-3'
+      version: 'latest'
     }
   }
   dependsOn: [
