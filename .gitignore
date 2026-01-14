@@ -140,6 +140,9 @@ appsettings.*.json
 Thumbs.db
 desktop.ini
 
+# Azure Developer CLI
+.azure/
+
 # Keep track of local configs that may be useful to commit by exception
 !/.gitattributes
 !/.gitignore

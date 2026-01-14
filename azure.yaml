@@ -1,0 +1,44 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
+
+name: zavastorefront
+metadata:
+  template: zavastorefront-webapp
+
+services:
+  web:
+    project: ./src
+    language: csharp
+    host: appservice
+    docker:
+      path: ./Dockerfile
+      context: .
+
+hooks:
+  preprovision:
+    shell: sh
+    run: echo "Starting infrastructure provisioning..."
+    continueOnError: false
+    interactive: false
+
+  postprovision:
+    shell: sh
+    run: |
+      echo "Infrastructure provisioned successfully"
+      echo "Building and deploying container using ACR tasks..."
+      # Build the Docker image using ACR tasks (no local Docker required)
+      # Generate timestamp in a portable way
+      TIMESTAMP=$(date -u +%Y%m%d%H%M%S)
+      # Create both 'latest' tag (for easy reference) and timestamped tag (for version tracking)
+      az acr build --registry $AZURE_CONTAINER_REGISTRY_NAME --image zavastorefront:latest --image zavastorefront:$TIMESTAMP --file Dockerfile .
+      echo "Container built and pushed to ACR with tags: latest, $TIMESTAMP"
+      # Restart the web app to pull the latest image
+      az webapp restart --name $WEB_APP_NAME --resource-group $AZURE_RESOURCE_GROUP
+      echo "Web app restarted with new container image"
+    continueOnError: false
+    interactive: false
+    
+  postdown:
+    shell: sh
+    run: echo "Resources deleted successfully"
+    continueOnError: true
+    interactive: false

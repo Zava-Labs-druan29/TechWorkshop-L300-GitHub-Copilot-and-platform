@@ -1,6 +1,47 @@
-# Project
+# ZavaStorefront Workshop
 
-This lab guides you through a series of practical exercises focused on modernising Zava's business applications and databases by migrating everything to Azure, leveraging GitHub Enterprise, Copilot, and Azure services. Each exercise is designed to deliver hands-on experience in governance, automation, security, AI integration, and observability, ensuring Zava’s transition to Azure is robust, secure, and future-ready.
+This lab guides you through a series of practical exercises focused on modernising Zava's business applications and databases by migrating everything to Azure, leveraging GitHub Enterprise, Copilot, and Azure services. Each exercise is designed to deliver hands-on experience in governance, automation, security, AI integration, and observability, ensuring Zava's transition to Azure is robust, secure, and future-ready.
+
+## Quick Start
+
+### Deploy to Azure
+
+This project includes Azure infrastructure as code using Azure Developer CLI (azd) and Bicep templates.
+
+```bash
+# Login to Azure
+azd auth login
+
+# Provision and deploy everything
+azd up
+```
+
+The infrastructure includes:
+- **Linux App Service** with Docker deployment
+- **Azure Container Registry** for container images
+- **Application Insights** for monitoring
+- **Azure OpenAI** with GPT-4 and Phi-3 models
+- **Managed Identity** with RBAC for secure authentication
+
+All resources are deployed to **westus3** region in a single resource group.
+
+For detailed deployment instructions, see [infra/README.md](infra/README.md).
+
+### Run Locally
+
+```bash
+cd src
+dotnet run
+```
+
+Then navigate to `https://localhost:5001`
+
+## Project Structure
+
+- **src/**: ZavaStorefront .NET 6 MVC application
+- **infra/**: Azure infrastructure as code (Bicep templates)
+- **Dockerfile**: Multi-stage Docker build for the application
+- **azure.yaml**: Azure Developer CLI configuration
 
 ## Contributing
 
