@@ -171,6 +171,8 @@ resource gpt4Deployment 'Microsoft.CognitiveServices/accounts/deployments@2023-0
 }
 
 // Deploy Phi model (using phi-3 as it's available in Azure OpenAI)
+// Note: Using 'latest' version to ensure compatibility with westus3 region
+// For production, consider pinning to a specific version once identified
 resource phiDeployment 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' = {
   parent: openAi
   name: 'phi-3'

@@ -28,8 +28,9 @@ hooks:
       # Build the Docker image using ACR tasks (no local Docker required)
       # Generate timestamp in a portable way
       TIMESTAMP=$(date -u +%Y%m%d%H%M%S)
+      # Create both 'latest' tag (for easy reference) and timestamped tag (for version tracking)
       az acr build --registry $AZURE_CONTAINER_REGISTRY_NAME --image zavastorefront:latest --image zavastorefront:$TIMESTAMP --file Dockerfile .
-      echo "Container built and pushed to ACR"
+      echo "Container built and pushed to ACR with tags: latest, $TIMESTAMP"
       # Restart the web app to pull the latest image
       az webapp restart --name $WEB_APP_NAME --resource-group $AZURE_RESOURCE_GROUP
       echo "Web app restarted with new container image"
