@@ -26,7 +26,9 @@ hooks:
       echo "Infrastructure provisioned successfully"
       echo "Building and deploying container using ACR tasks..."
       # Build the Docker image using ACR tasks (no local Docker required)
-      az acr build --registry $AZURE_CONTAINER_REGISTRY_NAME --image zavastorefront:latest --image zavastorefront:$(date +%Y%m%d%H%M%S) --file Dockerfile .
+      # Generate timestamp in a portable way
+      TIMESTAMP=$(date -u +%Y%m%d%H%M%S)
+      az acr build --registry $AZURE_CONTAINER_REGISTRY_NAME --image zavastorefront:latest --image zavastorefront:$TIMESTAMP --file Dockerfile .
       echo "Container built and pushed to ACR"
       # Restart the web app to pull the latest image
       az webapp restart --name $WEB_APP_NAME --resource-group $AZURE_RESOURCE_GROUP
